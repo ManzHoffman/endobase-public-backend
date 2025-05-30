@@ -11,8 +11,8 @@ app.use(cors({
     origin: [
         'http://localhost:3000',
         'http://80.74.147.132',
-        'http://core.frilance.ch',
-        'https://core.frilance.ch'  // include HTTPS if you're using SSL
+        'https://core.frilance.ch',
+        'https://gynecologie-hfr.ch'// include HTTPS if you're using SSL
     ],
 })); // Adjust to your frontend domain
 app.use(helmet());
