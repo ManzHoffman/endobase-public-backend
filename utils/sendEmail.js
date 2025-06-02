@@ -3,10 +3,6 @@ const { Readable } = require('stream');
 require('dotenv').config();
 
 
-
-
-
-
 const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
     port: parseInt(process.env.EMAIL_PORT),
@@ -25,9 +21,9 @@ module.exports = async function sendMediqEmail(formData) {
         to: process.env.EMAIL_TO,
         subject: `🩺 MEDI-Q: Nouveau formulaire de ${formData.patientCode}`,
         html: `
-      <h2>Formulaire MEDI-Q reçu</h2>
-      <p>Voir le fichier joint pour les données complètes.</p>
-    `,
+          <h2>Formulaire MEDI-Q reçu</h2>
+          <p>Voir le fichier joint pour les données complètes.</p>
+        `,
         attachments: [
             {
                 filename: `mediq-${formData.patientCode}-${Date.now()}.json`,
@@ -37,5 +33,11 @@ module.exports = async function sendMediqEmail(formData) {
         ]
     };
 
-    await transporter.sendMail(mailOptions);
+    try {
+        const info = await transporter.sendMail(mailOptions);
+        console.log("✅ Email sent. Response from SMTP:");
+        console.log(info);
+    } catch (error) {
+        console.error("❌ Failed to send email:", error);
+    }
 };
