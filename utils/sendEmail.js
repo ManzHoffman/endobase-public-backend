@@ -3,7 +3,7 @@ const { Readable } = require('stream');
 require('dotenv').config();
 
 const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
+    host: 'aten.ch-dns.net',
     port: parseInt(process.env.EMAIL_PORT),
     secure: true,
     auth: {
