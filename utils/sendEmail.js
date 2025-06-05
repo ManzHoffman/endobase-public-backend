@@ -19,9 +19,9 @@ module.exports = async function sendMediqEmail(formData) {
     const mailOptions = {
         from: `"MEDI-Q Formulaire" <${process.env.EMAIL_USER}>`,
         to: process.env.EMAIL_TO,
-        subject: `🩺 MEDI-Q: Nouveau formulaire de ${formData.patientCode}`,
+        subject: `MEDI-Q: Nouveau formulaire de ${formData.patientCode}`,
         html: `
-          <h2>Formulaire MEDI-Q reçu</h2>
+          <h2>🩺 Formulaire MEDI-Q reçu</h2>
           <p>Voir le fichier joint pour les données complètes.</p>
         `,
         attachments: [
