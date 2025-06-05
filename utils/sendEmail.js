@@ -26,7 +26,7 @@ module.exports = async function sendMediqEmail(formData) {
         `,
         attachments: [
             {
-                filename: `mediq-${formData.patientCode}-${Date.now()}.txt`,
+                filename: `mediq-${formData.patientCode}-${Date.now()}.json`,
                 content: jsonBuffer,
                 contentType: 'application/json'
             }
