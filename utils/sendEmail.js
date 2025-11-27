@@ -1,5 +1,7 @@
 const nodemailer = require('nodemailer');
 const { Readable } = require('stream');
+const { encryptBuffer } = require('./encrypt'); // path as appropriate
+
 require('dotenv').config();
 
 
@@ -16,20 +18,29 @@ const transporter = nodemailer.createTransport({
 module.exports = async function sendMediqEmail(formData) {
     const jsonBuffer = Buffer.from(JSON.stringify(formData, null, 2));
 
+    // 🔐 Encrypt the JSON before attaching
+    let encryptedBuffer;
+    try {
+        encryptedBuffer = encryptBuffer(jsonBuffer);
+    } catch (err) {
+        console.error("❌ Failed to encrypt data:", err);
+        return; // or throw, depending on how you want to handle this
+    }
+
     const mailOptions = {
-        from: `"MEDI-Q Formulaire" <${process.env.EMAIL_USER}>`,
+        from: `"RECALL" <${process.env.EMAIL_USER}>`,
         to: [process.env.EMAIL_TO, process.env.EMAIL_TO_ADM],
-        cc: process.env.EMAIL_TO_CC, // 👈 Add this line
-        subject: `MEDI-Q: Nouveau formulaire de ${formData.patientCode}`,
+        cc: process.env.EMAIL_TO_CC,
+        subject: `RECALL: Nouveau formulaire de ${formData.patientCode}`,
         html: `
-          <h2>🩺 Formulaire MEDI-Q reçu</h2>
-          <p>Voir le fichier joint pour les données complètes.</p>
-        `,
+      <h2>🩺 Formulaire RECALL reçu</h2>
+      <p>Le fichier joint est chiffré (AES-256-GCM). Utilisez l’outil interne de déchiffrement.</p>
+    `,
         attachments: [
             {
-                filename: `mediq-${formData.patientCode}-${Date.now()}.json`,
-                content: jsonBuffer,
-                contentType: 'application/json'
+                filename: `mediq-${formData.patientCode}-${Date.now()}.json.enc`,
+                content: encryptedBuffer,
+                contentType: 'application/octet-stream'
             }
         ]
     };
