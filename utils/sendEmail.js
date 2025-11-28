@@ -34,7 +34,7 @@ module.exports = async function sendMediqEmail(formData) {
         subject: `RECALL: Nouveau formulaire de ${formData.patientCode}`,
         html: `
       <h2>🩺 Formulaire RECALL reçu</h2>
-      <p>Le fichier joint est chiffré (AES-256-GCM). Utilisez l’outil interne de déchiffrement.</p>
+      <p>Code patiente :${formData.patientCode}.Le fichier joint est chiffré (AES-256-GCM). Utilisez l’outil interne de déchiffrement.</p>
     `,
         attachments: [
             {
