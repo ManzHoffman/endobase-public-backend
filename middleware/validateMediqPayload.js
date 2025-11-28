@@ -8,14 +8,14 @@ module.exports = function (req, res, next) {
     if (!answers || typeof answers !== 'object') {
         return res.status(400).json({ error: 'Invalid answers' });
     }
-
-    if (!responses || typeof responses !== 'object') {
-        return res.status(400).json({ error: 'Invalid responses' });
-    }
-
-    if (!q25 || typeof q25 !== 'object') {
-        return res.status(400).json({ error: 'Invalid q25' });
-    }
+    /*
+        if (!responses || typeof responses !== 'object') {
+            return res.status(400).json({ error: 'Invalid responses' });
+        }
+    
+        if (!q25 || typeof q25 !== 'object') {
+            return res.status(400).json({ error: 'Invalid q25' });
+        }*/
 
     next();
 };

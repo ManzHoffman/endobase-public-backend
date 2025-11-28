@@ -10,11 +10,14 @@ const PORT = process.env.PORT || 4000;
 app.use(cors({
     origin: [
         'http://localhost:3000',
-        'http://80.74.147.132',
+        'https://gynecologie-hfr.ch',
         'https://core.frilance.ch',
-        'https://gynecologie-hfr.ch'// include HTTPS if you're using SSL
     ],
-})); // Adjust to your frontend domain
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type'],
+}));
+app.options('*', cors());
+
 app.use(helmet());
 app.use(express.json());
 
